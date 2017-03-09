@@ -99,10 +99,27 @@
 
   pwd.prototype.newSession = function(terms, opts) {
     setOpts.call(this, opts);
+
     terms = terms || [];
     if (terms.length > 0) {
       this.terms = terms;
-      injectScript('https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit');
+      //injectScript('https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit');
+      //BYPASSRECAPTCHA
+      sendRequest('POST', self.opts.baseUrl +'/', {headers:{'Content-type':'application/x-www-form-urlencoded'}}, '', function(resp) {
+         if (resp.status == 200) {
+          console.log(resp.responseText, self.opts);
+            self.init(resp.responseText, self.opts);
+            self.terms.forEach(function(term) {
+
+              // Create terminals only for those elements that exist at least once in the DOM
+              if (document.querySelector(term.selector)) {
+                self.terminal(term);
+              }
+
+            });
+         }
+      });
+      //--BYPASSRECAPTCHA
     } else {
       console.warn('No terms specified, nothing to do.');
     }
