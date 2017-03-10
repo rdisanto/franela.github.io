@@ -94,7 +94,7 @@
     var opts = opts || {};
     this.opts = opts;
     this.opts.baseUrl = this.opts.baseUrl || 'http://play-with-docker.com';
-    this.opts.ports = this.opts.ports || [];
+    this.opts.ports = this.opts.ports || [80];
   }
 
   pwd.prototype.newSession = function(terms, opts) {
@@ -156,7 +156,6 @@
     window.onresize = function() {
       self.resize();
     };
-    console.log(this.opts);
     sendRequest('GET', this.opts.baseUrl + ":" + this.opts.ports + '/sessions/' + sessionId, undefined, undefined, function(response){
       var session = JSON.parse(response.responseText);
       for (var name in session.instances) {
