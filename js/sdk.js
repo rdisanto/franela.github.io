@@ -98,6 +98,7 @@
   }
 
   pwd.prototype.newSession = function(terms, opts) {
+    var self = this;
     setOpts.call(this, opts);
 
     terms = terms || [];
