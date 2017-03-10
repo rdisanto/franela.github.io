@@ -107,7 +107,6 @@
       //BYPASSRECAPTCHA
       sendRequest('POST', self.opts.baseUrl +'/', {headers:{'Content-type':'application/x-www-form-urlencoded'}}, '', function(resp) {
          if (resp.status == 200) {
-          console.log(resp.responseText, self.opts);
             self.init(resp.responseText, self.opts);
             self.terms.forEach(function(term) {
 
