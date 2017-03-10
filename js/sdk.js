@@ -157,7 +157,7 @@
       self.resize();
     };
 
-    sendRequest('GET', this.opts.baseUrl + this..opts.ports + '/sessions/' + sessionId, undefined, undefined, function(response){
+    sendRequest('GET', this.opts.baseUrl + this.opts.ports + '/sessions/' + sessionId, undefined, undefined, function(response){
       var session = JSON.parse(response.responseText);
       for (var name in session.instances) {
         var i = session.instances[name];
