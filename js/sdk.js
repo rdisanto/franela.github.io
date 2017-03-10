@@ -20,7 +20,7 @@
   var verifyCallback = function(response) {
     var self = this;
     var data = encodeURIComponent('g-recaptcha-response') + '=' + encodeURIComponent(response);
-    sendRequest('POST', this.opts.baseUrl + '/', {headers:{'Content-type':'application/x-www-form-urlencoded'}}, data, function(resp) {
+    sendRequest('POST', this.opts.baseUrl + self.opts.ports + '/', {headers:{'Content-type':'application/x-www-form-urlencoded'}}, data, function(resp) {
       //TODO handle errors
       if (resp.status == 200) {
         self.init(resp.responseText, self.opts);
@@ -94,7 +94,7 @@
     var opts = opts || {};
     this.opts = opts;
     this.opts.baseUrl = this.opts.baseUrl || 'http://play-with-docker.com';
-    this.opts.ports = this.opts.ports || [];
+    this.opts.ports = ":"+this.opts.ports || [];
   }
 
   pwd.prototype.newSession = function(terms, opts) {
@@ -106,7 +106,7 @@
       this.terms = terms;
       //injectScript('https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit');
       //BYPASSRECAPTCHA
-      sendRequest('POST', self.opts.baseUrl +'/', {headers:{'Content-type':'application/x-www-form-urlencoded'}}, '', function(resp) {
+      sendRequest('POST', self.opts.baseUrl + self.opts.ports + '/', {headers:{'Content-type':'application/x-www-form-urlencoded'}}, '', function(resp) {
          if (resp.status == 200) {
             self.init(resp.responseText, self.opts);
             self.terms.forEach(function(term) {
@@ -130,7 +130,7 @@
     var self = this;
     setOpts.call(this, opts);
     this.sessionId = sessionId;
-    this.socket = io(this.opts.baseUrl, {path: '/sessions/' + sessionId + '/ws' });
+    this.socket = io(this.opts.baseUrl+self.opts.ports, {path: '/sessions/' + sessionId + '/ws' });
     this.socket.on('terminal out', function(name ,data) {
       var instance = self.instances[name];
       if (instance && instance.terms) {
@@ -157,7 +157,7 @@
       self.resize();
     };
 
-    sendRequest('GET', this.opts.baseUrl + '/sessions/' + sessionId, undefined, undefined, function(response){
+    sendRequest('GET', this.opts.baseUrl + self.opts.ports + '/sessions/' + sessionId, undefined, undefined, function(response){
       var session = JSON.parse(response.responseText);
       for (var name in session.instances) {
         var i = session.instances[name];
@@ -205,7 +205,7 @@
   pwd.prototype.createInstance = function(callback) {
     var self = this;
     //TODO handle http connection errors
-    sendRequest('POST', self.opts.baseUrl + '/sessions/' + this.sessionId + '/instances', undefined, undefined, function(response) {
+    sendRequest('POST', self.opts.baseUrl + self.opts.ports + '/sessions/' + this.sessionId + '/instances', undefined, undefined, function(response) {
       if (response.status == 200) {
         var i = JSON.parse(response.responseText);
         i.terms = [];
