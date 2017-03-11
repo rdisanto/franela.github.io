@@ -51,7 +51,7 @@ layout: default
             {% else %}
             <li class="bordered disabled">
             {% endif %}
-              <a href="#">
+              <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">
                 <span aria-hidden="true" class="icon-arrow-previous"></span>
                 <span class="sr-only">previous</span>
               </a>
@@ -72,7 +72,7 @@ layout: default
             {% else %}
             <li class="bordered disabled">
             {% endif %}
-              <a href="#">
+              <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">
                 <span aria-hidden="true" class="icon-arrow-next"></span>
                 <span class="sr-only">next</span>
               </a>
