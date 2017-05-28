@@ -4,8 +4,11 @@ layout: default
 
 {% assign terms = page.terms | default: 1 %}
 <div class="panel-container">
-
-    <div class="panel-left">
+    {% if terms > 0 %}
+    <div class="panel-left content">
+    {% else %}
+    <div class="content">
+    {% endif %}
         <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
             <header class="post-header">
@@ -33,14 +36,17 @@ layout: default
 
     </div>
 
+    {% if terms > 0 %}
     <div class="splitter">
     </div>
 
     <div class="panel-right">
         {% for i in (1..terms) %}
-        <div class="term{{i}}" style="height: {{ 100 | divided_by: terms }}%;"></div>
+        <div class="term{{i}}"></div>
         {% endfor %}
     </div>
+    {% endif  %}
+
 </div>
 
 <script>
@@ -52,5 +58,18 @@ layout: default
         var q = document.getElementsByTagName('link')[0];
         q.parentNode.insertBefore(font3, q);
     })();
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script src="https://rawgit.com/RickStrahl/jquery-resizable/master/dist/jquery-resizable.min.js"></script>
+<script src="https://cdn.rawgit.com/play-with-docker/sdk/ca56acda/dist/pwd.js"></script>
+<script src="{{site.baseurl}}/js/quiz.js"></script>
+<script>
+    pwd.newSession([{selector: '.term1'}, {selector: '.term2'}, {selector: '.term3'}], {ImageName: '{{page.image}}'
+});
+      $(".panel-left").resizable({
+      handleSelector: ".splitter",
+      resizeHeight: false,
+      onDragEnd: pwd.resize.bind(pwd)
+  });
 </script>
 

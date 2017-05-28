@@ -1,10 +1,10 @@
 ---
 layout: post
 title: "Docker compose with swarm secrets"
-date:   2017-02-14 10:51:47 +0530
+date:   2017-01-23
 author: "@marcosnils"
-tags: [docker, compose, swarm secrets]
-categories: docker
+tags: [developer,operations,linux]
+categories: beginner
 img: "docker-secrets.png"
 ---
 
@@ -13,6 +13,8 @@ Start securing your swarm services using the latest compose reference that allow
 ## Requirements
 
 Docker 1.13.1 and compose 1.11.1
+
+> Note: This tutorial might use some Docker experimental features. Refer to the [following guide](https://github.com/moby/moby/tree/master/experimental) to see how to enable them if you plan to run it in your local computer.
 
 ## Getting started
 
@@ -56,11 +58,29 @@ Deploy your stack service:
 docker stack deploy -c docker-compose.yml secret
 ```
 
+Results in the below output:
+```
+Creating network secret_default
+Creating secret secret_my_secret
+Creating service secret_test
+```
+
 After your stack is deployed you can check your service output:
 
 
 ```.term1
 docker service logs -f secret_test
+```
+
+Results in the below output (below values after `secret_test.1.` may vary):
+```
+secret_test.1.lcygnppmzfdp@node1    | shhh, this is a secret
+secret_test.1.mg1420w2i3x4@node1    | shhh, this is a secret
+secret_test.1.8osraz8yxjrb@node1    | shhh, this is a secret
+secret_test.1.byh5b9uik6db@node1    | shhh, this is a secret
+.
+.
+.
 ```
 
 ### Using existing secrets
