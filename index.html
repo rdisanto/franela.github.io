@@ -5,12 +5,12 @@ layout: page
 <div class="home container-fluid">
 
     <div class="row">
-        <div class="col-md-offset-1 col-md-10">
+        <div class="col-md-offset-1 col-md-12">
              <div class="row pack">
 
                 {% for post in paginator.posts %}   
                     
-                      <div class="col-md-4 card">
+                      <div class="col-md-1 card">
                         <div class="thumbnail">
                           {% if post.img %}
                           <img src="{{site.baseurl}}/images/{{post.img}}" alt="{{post.title}}">
@@ -39,7 +39,7 @@ layout: page
     </div>
 
     <div class="row">
-      <div class="col-md-4">  </div>  
+      <div class="col-md-5">  </div>  
       <div class="col-md-5">
    
         {% if paginator.total_pages > 1 %}
@@ -82,7 +82,7 @@ layout: page
 
         {% endif %}
       </div>
-      <div class="col-md-4">  </div>
+      <div class="col-md-0">  </div>
     </div>
     
 </div>
