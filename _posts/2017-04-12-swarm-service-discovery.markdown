@@ -5,7 +5,7 @@ date:   2017-04-12
 author: "@ajeetsraina"
 tags: [linux,operations]
 categories: intermediate
-img: "swarm-service-discovery.png"
+img: "swarm.jpg"
 terms: 2
 ---
 Service Discovery under Swarm Mode.
