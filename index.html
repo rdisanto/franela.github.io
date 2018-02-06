@@ -14,7 +14,7 @@ title: DFY - Play with Docker Classroom
           {% assign t = tag | first %}
           {% assign post_data = tag | last %}
           <li class="nav-item">
-            <a data-filter="{{ t }}" class="nav-link" href="#{{ t }}">{{ t | camelize | replace: "-", " " }}</a>
+            <a data-filter=".{{ t }}" class="nav-link" href="#{{ t }}">{{ t | camelize | replace: "-", " " }}</a>
           </li>
         {% endfor %}
       </ul>
@@ -29,7 +29,7 @@ title: DFY - Play with Docker Classroom
 
                     {% for post in site.posts %}
 
-                          <div class="col-md-3 card element-item " data-category="transition">
+                          <div class="col-md-3 card element-item {{ post.tags | join: " " }}">
                             <div class="thumbnail">
                               {% if post.img %}
                               <img src="{{site.baseurl}}/images/{{post.img}}" alt="{{post.title}}">
@@ -81,9 +81,9 @@ title: DFY - Play with Docker Classroom
       }
     };
     // bind filter button click
-    $('.nav-item a').on( 'click', 'button', function() {
-      alert("ok");
+    $('.nav-item .nav-link').click(function() {
       var filterValue = $( this ).attr('data-filter');
+      console.log(filterValue);
       // use filterFn if matches value
       filterValue = filterFns[ filterValue ] || filterValue;
       $grid.isotope({ filter: filterValue });
