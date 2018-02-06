@@ -1,0 +1,18 @@
+.card{
+	width:20%;
+}
+.card .thumbnail img{
+	background-color:white;
+	padding: 1.5em;
+}
+.thumbnail .body{
+	padding: 1.5em 0;
+}
+.post-content pre{
+	background-color: #ffe3cc;
+}
+.post-content pre code{
+}
+.nav > li{
+	display: inline-block;
+}

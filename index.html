@@ -1,28 +1,99 @@
 ---
-layout: home
-title: Play with Docker Classroom
+layout: page
+title: DFY - Play with Docker Classroom
 ---
+{% assign ordered_tags = site.tags | sort %}
+<main id="content" class="container">
+  <div id="localContainer" class="o-nav-local">
+    <nav class="container">
+      <ul class="nav">
+        <li class="nav-item">
+          <a data-filter="*" class="nav-link" href="#all">show all</a>
+        </li>
+        {% for tag in ordered_tags %}
+          {% assign t = tag | first %}
+          {% assign post_data = tag | last %}
+          <li class="nav-item">
+            <a data-filter="{{ t }}" class="nav-link" href="#{{ t }}">{{ t | camelize | replace: "-", " " }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+  </div>
+</main>
+<div class="grid">
+    <div class="home container-fluid">
 
+        <div class="row">
+            <div class="col-md-offset-1 col-md-12">
+                 <div class="row pack">
 
-<div style="list-style-type:none;font-size:18px">
-  <span><p>The Play with Docker classroom brings you labs and tutorials that help you get hands-on experience using Docker.
-    In this classroom you will find a mix of labs and tutorials that will help Docker users, including SysAdmins, IT Pros, and Developers.
-    There is a mix of hands-on tutorials right in the browser, instructions on setting up and using Docker in your own environment, and resources about best practices for developing and deploying your own applications.</p>
-    <p>We recommend you start with one of our Getting Started Guides, and then explore the individual labs that explore many advanced features of Docker</p></span>
-  <h2>Getting Started Guides</h2>
-  <span><em>For a comprehensive approach to understanding Docker, choose your preferred journey.</em></span>
-  <br/>
-  <br/>
-  <ul style="list-style-type: none;">
-    <li><a href="/ops-landing">Getting Started Walk-through for IT Pros and System Administrators</a></li>
-    <p><em>Learn more about Docker, how it works and how it can help you deploy secure, scalable applications and save money along the way.</em></p><br/>
-    <li><a href="/dev-landing">Getting Started Walk-through for Developers</a></li>
-    <p><em>Learn the core concepts of Docker and how it can make building apps faster, easier, and more secure.
-  </ul>
-  <span><em>Or for a full list of individual labs on this site, check out our labs page</em></span>
-  <br/>
-  <br/>
-  <a href="/alacart">Full list of individual labs</a>
+                    {% for post in site.posts %}
+
+                          <div class="col-md-3 card element-item " data-category="transition">
+                            <div class="thumbnail">
+                              {% if post.img %}
+                              <img src="{{site.baseurl}}/images/{{post.img}}" alt="{{post.title}}">
+                              {% else %}
+                              <img src="{{site.baseurl}}/images/simple-logo.png" alt="{{site.title}}">
+                              {% endif %}
+                              <div class="panel-body caption">
+                                <h4>{{ post.title | truncate: 25 }}</h4>
+                                <div class="row">
+                                  <span class="post-meta pull-right">
+                                    <small>{{ post.date | date: "%b %-d, %Y" }}</small>
+                                  </span>
+                                </div>
+                                <div class="body">
+                                  {{ post.excerpt | strip_html | strip_newlines | truncate: 160 }}
+                                  <a href="{{ post.url | prepend: site.baseurl }}" class="btn btn-primary btn-sm pull-right mt10" role="button">Go</a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                    {% endfor %}
+
+                  </div>
+            </div>
+        </div>
+    </div>
 </div>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+<script src='http://npmcdn.com/isotope-layout@3/dist/isotope.pkgd.js'></script>
 
-  
+<script type"text/javascript">
+    // init Isotope
+    var $grid = $('.grid').isotope({
+      itemSelector: '.element-item',
+      layoutMode: 'fitRows'
+    });
+    // filter functions
+    var filterFns = {
+      // show if number is greater than 50
+      numberGreaterThan50: function() {
+        var number = $(this).find('.number').text();
+        return parseInt( number, 10 ) > 50;
+      },
+      // show if name ends with -ium
+      ium: function() {
+        var name = $(this).find('.name').text();
+        return name.match( /ium$/ );
+      }
+    };
+    // bind filter button click
+    $('.nav-item a').on( 'click', 'button', function() {
+      alert("ok");
+      var filterValue = $( this ).attr('data-filter');
+      // use filterFn if matches value
+      filterValue = filterFns[ filterValue ] || filterValue;
+      $grid.isotope({ filter: filterValue });
+    });
+    // change is-checked class on buttons
+    $('.nav-item').each( function( i, buttonGroup ) {
+      var $buttonGroup = $( buttonGroup );
+      $buttonGroup.on( 'click', 'button', function() {
+        $buttonGroup.find('.active').removeClass('active');
+        $( this ).addClass('active');
+      });
+    });
+</script>
